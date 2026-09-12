@@ -1,10 +1,11 @@
 export type ButtonType = {
     title: string
+    onClick: () => void
 }
 
-export const Button = ({title}: ButtonType) => {
+export const Button = ({title, onClick}: ButtonType) => {
     return (
-        <button>{title}</button>
+        <button onClick={onClick}>{title}</button>
     );
 };
 
