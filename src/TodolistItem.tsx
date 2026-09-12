@@ -1,4 +1,4 @@
-import {useRef} from "react";
+import {type KeyboardEvent, ChangeEvent, useState} from "react";
 import type {FilterValues} from "./App";
 import {Button} from "./Button";
 
@@ -17,7 +17,7 @@ export type TaskType = {
 }
 
 export const TodolistItem = ({title, tasks, deleteTask, changeFilter, createTask}: TodolistItemType) => {
-    const inputRef = useRef<HTMLInputElement>(null)
+    const [taskTitle, setTaskTitle] = useState('')
 
     const mappedTasks = tasks.length === 0
             ? <p>Your list is empty</p>
@@ -31,18 +31,32 @@ export const TodolistItem = ({title, tasks, deleteTask, changeFilter, createTask
             )
     })
 
+    const createTaskHandler = () => {
+        createTask(taskTitle)
+        setTaskTitle('')
+    }
+
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => setTaskTitle(e.currentTarget.value)
+
+    const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+                if (e.key === 'Enter') {
+                    createTaskHandler()
+                }
+    }
+
+
+
+
     return (
         <div>
             <h3>{title}</h3>
             <div>
-                <input ref={inputRef}/>
+                <input value={taskTitle}
+                       onChange={onChangeHandler}
+                       onKeyDown={onKeyDownHandler}
+                />
                 <Button title={'+'}
-                        onClick={() => {
-                            if (inputRef.current) {
-                                createTask(inputRef.current.value)
-                                inputRef.current.value = ''
-                            }
-                        }}
+                        onClick={createTaskHandler}
                 />
             </div>
             <ul>
