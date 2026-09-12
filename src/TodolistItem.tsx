@@ -1,3 +1,4 @@
+import {useRef} from "react";
 import type {FilterValues} from "./App";
 import {Button} from "./Button";
 
@@ -6,15 +7,18 @@ export type TodolistItemType = {
     tasks: TaskType[]
     deleteTask: (taskId: TaskType['id']) => void
     changeFilter: (filter: FilterValues) => void
+    createTask: (title: string) => void
 }
 
 export type TaskType = {
-    id: number
+    id: string
     title: string
     isDone: boolean
 }
 
-export const TodolistItem = ({title, tasks, deleteTask, changeFilter}: TodolistItemType) => {
+export const TodolistItem = ({title, tasks, deleteTask, changeFilter, createTask}: TodolistItemType) => {
+    const inputRef = useRef<HTMLInputElement>(null)
+
     const mappedTasks = tasks.length === 0
             ? <p>Your list is empty</p>
             : tasks.map(t => {
@@ -31,8 +35,15 @@ export const TodolistItem = ({title, tasks, deleteTask, changeFilter}: TodolistI
         <div>
             <h3>{title}</h3>
             <div>
-                <input/>
-                <button>+</button>
+                <input ref={inputRef}/>
+                <Button title={'+'}
+                        onClick={() => {
+                            if (inputRef.current) {
+                                createTask(inputRef.current.value)
+                                inputRef.current.value = ''
+                            }
+                        }}
+                />
             </div>
             <ul>
                 {mappedTasks}
