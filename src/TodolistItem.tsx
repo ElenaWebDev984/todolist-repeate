@@ -5,10 +5,11 @@ import {Button} from "./Button";
 export type TodolistItemType = {
     todolist: Todolist
     tasks: TaskType[]
-    deleteTask: (todolistId: string, taskId: TaskType['id']) => void
-    changeFilter: (todolistId: string, filter: FilterValues) => void
-    createTask: (title: string) => void
-    changeTaskStatus: (taskId: TaskType['id'], isDone: TaskType['isDone']) => void
+    deleteTask: (todolistId: Todolist['id'], taskId: TaskType['id']) => void
+    changeFilter: (todolistId: Todolist['id'], filter: FilterValues) => void
+    createTask: (todolistId: Todolist['id'], title: string) => void
+    changeTaskStatus: (todolistId: Todolist['id'], taskId: TaskType['id'], isDone: TaskType['isDone']) => void
+    deleteTodolist: (todolistId: Todolist['id']) => void
 }
 
 export type TaskType = {
@@ -24,6 +25,7 @@ export const TodolistItem = ({
                                  changeFilter,
                                  createTask,
                                  changeTaskStatus,
+                                 deleteTodolist,
                              }: TodolistItemType) => {
 
     const [taskTitle, setTaskTitle] = useState('')
@@ -38,7 +40,7 @@ export const TodolistItem = ({
 
             const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
                 const newStatusValue = e.currentTarget.checked
-                changeTaskStatus(t.id, newStatusValue)
+                changeTaskStatus(id, t.id, newStatusValue)
             }
 
             return (
@@ -56,7 +58,7 @@ export const TodolistItem = ({
     const createTaskHandler = () => {
         const trimmedTitle = taskTitle.trim()
         if (trimmedTitle !== '') {
-            createTask(trimmedTitle)
+            createTask(id, trimmedTitle)
             setTaskTitle('')
         } else {
             setError('Title is required')
@@ -75,13 +77,20 @@ export const TodolistItem = ({
     }
 
     const changeFilterHandler = (filter: FilterValues) => {
-            changeFilter(id, filter)
+        changeFilter(id, filter)
+    }
+
+    const deleteTodolistHandler = () => {
+        deleteTodolist(id)
     }
 
 
     return (
         <div>
-            <h3>{title}</h3>
+            <div className={'container'}>
+                <h3>{title}</h3>
+                <Button title={'X'} onClick={deleteTodolistHandler}/>
+            </div>
             <div>
                 <input className={error ? 'error' : ''}
                        value={taskTitle}
