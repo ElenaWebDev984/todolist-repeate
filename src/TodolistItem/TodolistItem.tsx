@@ -1,8 +1,15 @@
+import ListItem from "@mui/material/ListItem";
+import Checkbox from "@mui/material/Checkbox";
+import Button from "@mui/material/Button";
 import {ChangeEvent} from "react";
-import type {FilterValues, Todolist} from "./App";
-import {Button} from "./Button";
-import {CreateItemForm} from "./CreateItemForm";
-import {EditableSpan} from "./EditableSpan";
+import type {FilterValues, Todolist} from "../App/App";
+import {CreateItemForm} from "../CreateItemForm";
+import {EditableSpan} from "../EditableSpan";
+import IconButton from '@mui/material/IconButton'
+import DeleteIcon from '@mui/icons-material/Delete'
+import List from "@mui/material/List";
+import Box from "@mui/material/Box";
+import {containerSx, getListItemSx} from "./TodolistItem.styles";
 
 export type TodolistItemType = {
     todolist: Todolist
@@ -52,14 +59,17 @@ export const TodolistItem = ({
 
 
             return (
-                <li key={t.id} className={t.isDone ? 'isDone' : ''}>
-                    <input type="checkbox"
-                           checked={t.isDone}
-                           onChange={changeTaskStatusHandler}
-                    />
-                    <EditableSpan value={t.title} onChange={changeTaskTitleHandler}/>
-                    <Button title={'x'} onClick={deleteTaskHandler}/>
-                </li>
+                <ListItem key={t.id}
+                          sx={getListItemSx(t.isDone)}>
+                    <div>
+                        <Checkbox checked={t.isDone}
+                                  onChange={changeTaskStatusHandler}/>
+                        <EditableSpan value={t.title} onChange={changeTaskTitleHandler}/>
+                    </div>
+                    <IconButton onClick={deleteTaskHandler}>
+                        <DeleteIcon/>
+                    </IconButton>
+                </ListItem>
             )
         })
 
@@ -86,26 +96,28 @@ export const TodolistItem = ({
                 <h3>
                     <EditableSpan value={title} onChange={changeTodolistTitleHandler}/>
                 </h3>
-                <Button title={'X'} onClick={deleteTodolistHandler}/>
+                <IconButton onClick={deleteTodolistHandler}>
+                    <DeleteIcon/>
+                </IconButton>
             </div>
             <CreateItemForm onCreateItem={createTaskHandler}/>
-            <ul>
+            <List>
                 {mappedTasks}
-            </ul>
-            <div>
-                <Button title={'All'}
-                        onClick={() => changeFilterHandler('all')}
-                        className={filter === 'all' ? 'active-filter' : ''}
-                />
-                <Button title={'Active'}
-                        onClick={() => changeFilterHandler('active')}
-                        className={filter === 'active' ? 'active-filter' : ''}
-                />
-                <Button title={'Completed'}
-                        onClick={() => changeFilterHandler('completed')}
-                        className={filter === 'completed' ? 'active-filter' : ''}
-                />
-            </div>
+            </List>
+            <Box sx={containerSx}>
+                <Button variant={filter === 'all' ? 'outlined' : 'text'}
+                        onClick={() => changeFilterHandler('all')}>
+                    All
+                </Button>
+                <Button variant={filter === 'active' ? 'outlined' : 'text'}
+                        onClick={() => changeFilterHandler('active')}>
+                    Active
+                </Button>
+                <Button variant={filter === 'completed' ? 'outlined' : 'text'}
+                        onClick={() => changeFilterHandler('completed')}>
+                    Completed
+                </Button>
+            </Box>
         </div>
     );
 };
