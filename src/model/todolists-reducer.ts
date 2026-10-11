@@ -2,12 +2,14 @@ import type {Todolist} from "../App/App";
 
 const initialState: Todolist[] = []
 
+type Actions = DeleteTodolistAction | CreateTodolistAction
+
 export const todolistsReducer = (state = initialState, action: Actions): Todolist[] => {
     switch (action.type) {
         case 'delete_todolist':
             return state.filter(todolist => todolist.id !== action.payload.id)
 
-        case 'create_todolist': // create todolist logic
+        case 'create_todolist':
             return state
 
         default:
@@ -15,22 +17,32 @@ export const todolistsReducer = (state = initialState, action: Actions): Todolis
     }
 }
 
-// Actions
-type Actions = {
-    type: string
-    payload: any
-}
 
-const action1 = {
-    type: 'delete_todolist',
+// Actions
+const deleteAction: DeleteTodolistAction = {
+    type:'delete_todolist'
     payload: {
-        id: 1,
+        id: 'todolistId1'
     }
 }
 
-const action2 = {
-    type: 'create_todolist',
-    payload: {id: '123',
-        title: 'hello world',
+export type DeleteTodolistAction = {
+    type: 'delete_todolist'
+    payload: {
+        id: string
+    }
+}
+
+const createAction: CreateTodolistAction = {
+    type:'create_todolist',
+    payload: {
+        title: 'hello'
+    }
+}
+
+export type CreateTodolistAction = {
+    type: 'create_todolist'
+    payload: {
+        title: string
     }
 }
