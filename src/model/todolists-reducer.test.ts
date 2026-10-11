@@ -1,21 +1,30 @@
-import {expect, test} from "vitest";
+import {v1} from 'uuid'
+import { expect, test } from 'vitest'
+import type {Todolist} from '../App/App'
+import {todolistsReducer} from './todolists-reducer'
 
-export function sum(a, b) {
-    return a + b
-}
+test('correct todolist should be deleted', () => {
+    const todolistId1 = v1()
+    const todolistId2 = v1()
 
-test('sum numbers', () => {
-    const a = 10
-    const b = 16
-    expect(sum(a,b)).toBe(26)
-})
+    // 1. Стартовый state
+    const startState: Todolist[] = [
+        {id: todolistId1, title: 'What to learn', filter: 'all'},
+        {id: todolistId2, title: 'What to buy', filter: 'all'},
+    ]
 
-test('two plus two is four', () => {
-    expect(2 + 2).toBe(4)
-})
+    // 2. Действие
+    const action = {
+        type: 'delete_todolist',
+        payload: {
+            id: todolistId1,
+        },
+    }
+    const endState = todolistsReducer(startState, action)
 
-test('sum negative numbers', () => {
-    const a = -10
-    const b = -20
-    expect(sum(a,b)).toBe(-30)
+    // 3. Проверка, что действие измененило state соответствующим образом
+    // в массиве останется один тудулист
+    expect(endState.length).toBe(1)
+    // удалится нужный тудулист, не любой
+    expect(endState[0].id).toBe(todolistId2)
 })
