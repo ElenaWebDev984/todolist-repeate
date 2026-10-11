@@ -8,15 +8,16 @@ import type {Todolist} from "../App/App";
 const initialState: Todolist[] = []
 
 export const todolistsReducer = (state = initialState, action: Actions): Todolist[] => {
-    if (action.type = 'delete_ todolist') {
-    // delete todolist logic. Change state
-    }
+    switch (action.type) {
+        case 'delete_ todolist': // delete todolist logic. Change state
+            return state
 
-    if (action.type = 'create_ todolist') {
-        // create todolist logic
-    }
+        case 'create_ todolist': // create todolist logic
+            return state
 
-    return state
+        default:
+            return state
+    }
 }
 
 // Actions
