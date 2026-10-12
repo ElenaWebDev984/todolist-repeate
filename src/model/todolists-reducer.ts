@@ -29,5 +29,11 @@ export const createTodolistAC = (title: string) => ({type: 'create_todolist', pa
 
 
 // TODO typification
+function sum(a: number, b: number): number {
+    return a + b
+}
+type SumType = typeof sum // (a: number, b: number): number
+type SumReturnType = ReturnType<SumType> //  number
+type SumParametersType = Parameters<SumType> // [a: number, b: number]
 
 
