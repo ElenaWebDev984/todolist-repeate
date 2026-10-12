@@ -17,6 +17,12 @@ export const todolistsReducer = (state = initialState, action: Actions): Todolis
     }
 }
 
+// Typization
+function sum(a: number, b: number) {
+    return a + b
+}
+
+type SumType = typeof sum // (a: number, b: number) => number
 
 // Actions
 export type DeleteTodolistAction = {
@@ -26,23 +32,13 @@ export type DeleteTodolistAction = {
     }
 }
 
-export const deleteTodolistAC = {
-    type:'delete_todolist',
-    payload: {
-        id: 'todolistId1'
-    }
-}
-
-const createAction: CreateTodolistAction = {
-    type:'create_todolist',
-    payload: {
-        title: 'hello'
-    }
-}
-
 export type CreateTodolistAction = {
-    type: 'create_todolist'
+    type:'create_todolist'
     payload: {
         title: string
     }
 }
+
+export const deleteTodolistAC = (id: string): DeleteTodolistAction => ({type: 'delete_todolist', payload: {id}})
+export const createTodolistAC = (title: string): CreateTodolistAction => ({type: 'create_todolist', payload: {title}})
+
