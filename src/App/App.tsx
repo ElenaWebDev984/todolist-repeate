@@ -80,15 +80,15 @@ export const App = () => {
         const todolistId = v1()
         const newTodolist: Todolist = {id: todolistId, title, filter: 'all'}
         setTodolists([newTodolist, ...todolists])
-        setTasks({...tasks, [todolistId]:[]})
+        setTasks({...tasks, [todolistId]: []})
     }
 
     const changeTaskTitle = (todolistId: Todolist['id'], taskId: TaskType['id'], title: TaskType['title']) => {
-        setTasks({...tasks, [todolistId]:tasks[todolistId].map(task => task.id === taskId ? {...task, title} : task)})
+        setTasks({...tasks, [todolistId]: tasks[todolistId].map(task => task.id === taskId ? {...task, title} : task)})
     }
 
     const changeTodolistTitle = (todolistId: Todolist['id'], title: Todolist['title']) => {
-        setTodolists(todolists.map(todolist => todolist.id === todolistId ? {...todolist,title} : todolist))
+        setTodolists(todolists.map(todolist => todolist.id === todolistId ? {...todolist, title} : todolist))
     }
 
     const [themeMode, setThemeMode] = useState<ThemeMode>('dark')
@@ -109,12 +109,12 @@ export const App = () => {
 
     return (
         <ThemeProvider theme={theme}>
-            <CssBaseline />
+            <CssBaseline/>
             <AppBar position="static" sx={appBarSx}>
                 <Toolbar>
                     <Container maxWidth={'lg'} sx={containerSx}>
                         <IconButton color={'inherit'}>
-                            <MenuIcon />
+                            <MenuIcon/>
                         </IconButton>
                         <div>
                             <NavButton background={theme.palette.primary.light}>Login</NavButton>
