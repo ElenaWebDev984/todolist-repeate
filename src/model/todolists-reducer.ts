@@ -23,6 +23,8 @@ function sum(a: number, b: number) {
 }
 
 type SumType = typeof sum // (a: number, b: number) => number
+type SumReturnType = ReturnType<SumType> //  number
+
 
 // Actions
 export type DeleteTodolistAction = {
