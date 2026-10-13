@@ -12,6 +12,7 @@ import Toolbar from '@mui/material/Toolbar'
 import {useReducer, useState} from "react";
 import {v1} from "uuid";
 import {CreateItemForm} from "../CreateItemForm";
+import {tasksReducer} from "../model/tasks-reducer";
 import {
     changeTodolistFilterAC,
     changeTodolistTitleAC,
@@ -43,9 +44,9 @@ export const App = () => {
     const todolistId1 = v1()
     const todolistId2 = v1()
 
-    const [todolists, dispatch] = useReducer(todolistsReducer, [])
+    const [todolists, dispatchTodolists] = useReducer(todolistsReducer, [])
 
-    const [tasks, setTasks] = useState<TasksState>({
+    const [tasks, dispatchTasks] = useReducer(tasksReducer, {
         [todolistId1]: [
             {id: v1(), title: 'HTML&CSS', isDone: true},
             {id: v1(), title: 'JS', isDone: true},
@@ -67,7 +68,7 @@ export const App = () => {
     }
 
     const changeFilter = (todolistId: Todolist['id'], filter: FilterValues) => {
-        dispatch(changeTodolistFilterAC({id: todolistId, filter}))
+        dispatchTodolists(changeTodolistFilterAC({id: todolistId, filter}))
     }
 
     const changeTaskStatus = (todolistId: Todolist['id'], taskId: TaskType['id'], isDone: TaskType['isDone']) => {
@@ -75,14 +76,17 @@ export const App = () => {
     }
 
     const deleteTodolist = (todolistId: Todolist['id']) => {
-        dispatch(deleteTodolistAC(todolistId))
+        dispatchTodolists(deleteTodolistAC(todolistId))
         // delete tasks[todolistId]
         // setTasks({...tasks})
     }
 
     const createTodolist = (title: Todolist['title']) => {
-        dispatch(createTodolistAC(title))
-        // setTasks({...tasks, [todolistId]: []})
+        const action = createTodolistAC(title)
+        dispatchTodolists(action)
+        // setTasks({...tasks, [action.payload.id]: []})
+        dispatchTasks(action)
+
     }
 
     const changeTaskTitle = (todolistId: Todolist['id'], taskId: TaskType['id'], title: TaskType['title']) => {
@@ -90,7 +94,7 @@ export const App = () => {
     }
 
     const changeTodolistTitle = (todolistId: Todolist['id'], title: Todolist['title']) => {
-        dispatch(changeTodolistTitleAC({id: todolistId, title}))
+        dispatchTodolists(changeTodolistTitleAC({id: todolistId, title}))
     }
 
     const [themeMode, setThemeMode] = useState<ThemeMode>('dark')

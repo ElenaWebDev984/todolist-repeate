@@ -35,7 +35,7 @@ export type ChangeTodolistTitleAction = ReturnType<typeof changeTodolistTitleAC>
 export type ChangeTodolistFilterAction = ReturnType<typeof changeTodolistFilterAC>
 
 export const deleteTodolistAC = (id: string) => ({type: 'delete_todolist', payload: {id}} as const)
-export const createTodolistAC = (title: string) => ({type: 'create_todolist', payload: {title}} as const)
+export const createTodolistAC = (title: string) => ({type: 'create_todolist', payload: {title, id: v1()}} as const)
 export const changeTodolistTitleAC = (payload: {id: string, title: string}) => ({type: 'change_todolist_title', payload} as const)
 export const changeTodolistFilterAC = (payload: {id: string, filter: FilterValues}) => ({type: 'change_todolist_filter', payload} as const)
 
