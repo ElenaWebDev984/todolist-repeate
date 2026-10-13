@@ -1,3 +1,4 @@
+import {v1} from "uuid";
 import type {Todolist} from "../App/App";
 
 const initialState: Todolist[] = []
@@ -9,8 +10,10 @@ export const todolistsReducer = (state = initialState, action: Actions): Todolis
         case 'delete_todolist':
             return state.filter(todolist => todolist.id !== action.payload.id)
 
-        case 'create_todolist':
-            return state
+        case 'create_todolist': {
+            const newTodolist: Todolist = {id: v1(), title: action.payload.title, filter:'all'}
+            return [newTodolist, ...state]
+        }
 
         default:
             return state
@@ -19,21 +22,26 @@ export const todolistsReducer = (state = initialState, action: Actions): Todolis
 
 // Actions
 export type DeleteTodolistAction = ReturnType<typeof deleteTodolistAC>
-
 export type CreateTodolistAction = ReturnType<typeof createTodolistAC>
 
 export const deleteTodolistAC = (id: string) => ({type: 'delete_todolist', payload: {id}} as const)
-
 export const createTodolistAC = (title: string) => ({type: 'create_todolist', payload: {title}} as const)
 
 
 
 // TODO typification
-function sum(a: number, b: number): number {
-    return a + b
-}
-type SumType = typeof sum // (a: number, b: number): number
-type SumReturnType = ReturnType<SumType> //  number
-type SumParametersType = Parameters<SumType> // [a: number, b: number]
+// function sum(a: number, b: number): number {
+//     return a + b
+// }
+
+
+// typeof типизирует всю функцию (параметры и возвращаемое значение)
+// type SumType = typeof sum // (a: number, b: number): number
+
+// ReturnType берет из полученного типа только возвращаемое значение
+// type SumReturnType = ReturnType<SumType> //  number
+
+// Parameters берет из полученного типа только параметры
+// type SumParametersType = Parameters<SumType> // [a: number, b: number]
 
 
