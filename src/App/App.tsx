@@ -9,9 +9,10 @@ import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import Toolbar from '@mui/material/Toolbar'
-import {useState} from "react";
+import {useReducer, useState} from "react";
 import {v1} from "uuid";
 import {CreateItemForm} from "../CreateItemForm";
+import {todolistsReducer} from "../model/todolists-reducer";
 import {type TaskType, TodolistItem} from "../TodolistItem/TodolistItem";
 import {containerSx} from "../TodolistItem/TodolistItem.styles";
 import {appBarSx, gridContainerSx, paperSx} from "./App.styles";
@@ -36,10 +37,12 @@ export const App = () => {
     const todolistId1 = v1()
     const todolistId2 = v1()
 
-    const [todolists, setTodolists] = useState<Todolist[]>([
-        {id: todolistId1, title: 'What to learn', filter: 'all'},
-        {id: todolistId2, title: 'What to buy', filter: 'all'},
-    ])
+    const [todolists, dispatch] = useReducer(todolistsReducer, [])
+
+    // const [todolists, setTodolists] = useState<Todolist[]>([
+    //     {id: todolistId1, title: 'What to learn', filter: 'all'},
+    //     {id: todolistId2, title: 'What to buy', filter: 'all'},
+    // ])
 
     const [tasks, setTasks] = useState<TasksState>({
         [todolistId1]: [
