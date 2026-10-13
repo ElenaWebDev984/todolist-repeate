@@ -45,11 +45,6 @@ export const App = () => {
 
     const [todolists, dispatch] = useReducer(todolistsReducer, [])
 
-    // const [todolists, setTodolists] = useState<Todolist[]>([
-    //     {id: todolistId1, title: 'What to learn', filter: 'all'},
-    //     {id: todolistId2, title: 'What to buy', filter: 'all'},
-    // ])
-
     const [tasks, setTasks] = useState<TasksState>({
         [todolistId1]: [
             {id: v1(), title: 'HTML&CSS', isDone: true},
@@ -72,7 +67,6 @@ export const App = () => {
     }
 
     const changeFilter = (todolistId: Todolist['id'], filter: FilterValues) => {
-        // setTodolists(todolists.map(todolist => todolist.id === todolistId ? {...todolist, filter} : todolist))
         dispatch(changeTodolistFilterAC({id: todolistId, filter}))
     }
 
@@ -81,16 +75,12 @@ export const App = () => {
     }
 
     const deleteTodolist = (todolistId: Todolist['id']) => {
-        // setTodolists(todolists.filter(todolist => todolist.id !== todolistId))
         dispatch(deleteTodolistAC(todolistId))
         // delete tasks[todolistId]
         // setTasks({...tasks})
     }
 
     const createTodolist = (title: Todolist['title']) => {
-        // const todolistId = v1()
-        // const newTodolist: Todolist = {id: todolistId, title, filter: 'all'}
-        // setTodolists([newTodolist, ...todolists])
         dispatch(createTodolistAC(title))
         // setTasks({...tasks, [todolistId]: []})
     }
@@ -100,7 +90,6 @@ export const App = () => {
     }
 
     const changeTodolistTitle = (todolistId: Todolist['id'], title: Todolist['title']) => {
-        // setTodolists(todolists.map(todolist => todolist.id === todolistId ? {...todolist, title} : todolist))
         dispatch(changeTodolistTitleAC({id: todolistId, title}))
     }
 
