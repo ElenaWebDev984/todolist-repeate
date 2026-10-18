@@ -12,7 +12,7 @@ import Toolbar from '@mui/material/Toolbar'
 import {useReducer, useState} from "react";
 import {v1} from "uuid";
 import {CreateItemForm} from "../CreateItemForm";
-import {tasksReducer} from "../model/tasks-reducer";
+import {createTaskAC, deleteTaskAC, tasksReducer} from "../model/tasks-reducer";
 import {
     changeTodolistFilterAC,
     changeTodolistTitleAC,
@@ -59,12 +59,11 @@ export const App = () => {
     })
 
     const deleteTask = (todolistId: Todolist['id'], taskId: TaskType['id']) => {
-        setTasks({...tasks, [todolistId]: tasks[todolistId].filter(task => task.id !== taskId)})
+        dispatchTasks(deleteTaskAC({todolistId, taskId}))
     }
 
-    const createTask = (todolistId: Todolist['id'], title: string) => {
-        const newTask = {id: v1(), title, isDone: false}
-        setTasks({...tasks, [todolistId]: [newTask, ...tasks[todolistId]]})
+    const createTask = (todolistId: Todolist['id'], title: TaskType['title']) => {
+        dispatchTasks(createTaskAC({todolistId, title}))
     }
 
     const changeFilter = (todolistId: Todolist['id'], filter: FilterValues) => {
@@ -72,14 +71,12 @@ export const App = () => {
     }
 
     const changeTaskStatus = (todolistId: Todolist['id'], taskId: TaskType['id'], isDone: TaskType['isDone']) => {
-        setTasks({...tasks, [todolistId]: tasks[todolistId].map(task => task.id === taskId ? {...task, isDone} : task)})
+        // setTasks({...tasks, [todolistId]: tasks[todolistId].map(task => task.id === taskId ? {...task, isDone} : task)})
     }
 
     const deleteTodolist = (todolistId: Todolist['id']) => {
         const action = deleteTodolistAC(todolistId)
         dispatchTodolists(action)
-        // delete tasks[todolistId]
-        // setTasks({...tasks})
         dispatchTasks(action)
     }
 
@@ -91,7 +88,7 @@ export const App = () => {
     }
 
     const changeTaskTitle = (todolistId: Todolist['id'], taskId: TaskType['id'], title: TaskType['title']) => {
-        setTasks({...tasks, [todolistId]: tasks[todolistId].map(task => task.id === taskId ? {...task, title} : task)})
+        // setTasks({...tasks, [todolistId]: tasks[todolistId].map(task => task.id === taskId ? {...task, title} : task)})
     }
 
     const changeTodolistTitle = (todolistId: Todolist['id'], title: Todolist['title']) => {

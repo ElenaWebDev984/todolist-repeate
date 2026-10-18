@@ -11,7 +11,7 @@ export const todolistsReducer = (state = initialState, action: Actions): Todolis
             return state.filter(todolist => todolist.id !== action.payload.id)
 
         case 'create_todolist': {
-            const newTodolist: Todolist = {id: v1(), title: action.payload.title, filter:'all'}
+            const newTodolist: Todolist = {id: action.payload.id, title: action.payload.title, filter:'all'}
             return [newTodolist, ...state]
         }
 
