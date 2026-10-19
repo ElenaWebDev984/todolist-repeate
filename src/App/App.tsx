@@ -1,16 +1,15 @@
 import './App.css'
 import MenuIcon from '@mui/icons-material/Menu'
-import Switch from '@mui/material/Switch'
-import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from '@mui/material/AppBar'
 import Container from '@mui/material/Container'
+import CssBaseline from "@mui/material/CssBaseline";
 import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import Paper from '@mui/material/Paper'
 import {createTheme, ThemeProvider} from "@mui/material/styles";
+import Switch from '@mui/material/Switch'
 import Toolbar from '@mui/material/Toolbar'
 import {useReducer, useState} from "react";
-import {v1} from "uuid";
 import {CreateItemForm} from "../CreateItemForm";
 import {changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteTaskAC, tasksReducer} from "../model/tasks-reducer";
 import {
@@ -20,10 +19,10 @@ import {
     deleteTodolistAC,
     todolistsReducer
 } from "../model/todolists-reducer";
+import {NavButton} from '../NavButton';
 import {type TaskType, TodolistItem} from "../TodolistItem/TodolistItem";
 import {containerSx} from "../TodolistItem/TodolistItem.styles";
 import {appBarSx, gridContainerSx, paperSx} from "./App.styles";
-import {NavButton} from '../NavButton';
 
 type ThemeMode = 'dark' | 'light'
 
@@ -41,22 +40,9 @@ export type TasksState = {
 
 
 export const App = () => {
-    const todolistId1 = v1()
-    const todolistId2 = v1()
-
     const [todolists, dispatchTodolists] = useReducer(todolistsReducer, [])
 
-    const [tasks, dispatchTasks] = useReducer(tasksReducer, {
-        [todolistId1]: [
-            {id: v1(), title: 'HTML&CSS', isDone: true},
-            {id: v1(), title: 'JS', isDone: true},
-            {id: v1(), title: 'ReactJS', isDone: false},
-        ],
-        [todolistId2]: [
-            {id: v1(), title: 'Rest API', isDone: true},
-            {id: v1(), title: 'GraphQL', isDone: true},
-        ]
-    })
+    const [tasks, dispatchTasks] = useReducer(tasksReducer, {})
 
     const deleteTask = (todolistId: Todolist['id'], taskId: TaskType['id']) => {
         dispatchTasks(deleteTaskAC({todolistId, taskId}))
