@@ -12,7 +12,7 @@ import Toolbar from '@mui/material/Toolbar'
 import {useReducer, useState} from "react";
 import {v1} from "uuid";
 import {CreateItemForm} from "../CreateItemForm";
-import {createTaskAC, deleteTaskAC, tasksReducer} from "../model/tasks-reducer";
+import {changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteTaskAC, tasksReducer} from "../model/tasks-reducer";
 import {
     changeTodolistFilterAC,
     changeTodolistTitleAC,
@@ -71,7 +71,7 @@ export const App = () => {
     }
 
     const changeTaskStatus = (todolistId: Todolist['id'], taskId: TaskType['id'], isDone: TaskType['isDone']) => {
-        // setTasks({...tasks, [todolistId]: tasks[todolistId].map(task => task.id === taskId ? {...task, isDone} : task)})
+        dispatchTasks(changeTaskStatusAC({todolistId, taskId, isDone}))
     }
 
     const deleteTodolist = (todolistId: Todolist['id']) => {
@@ -88,7 +88,7 @@ export const App = () => {
     }
 
     const changeTaskTitle = (todolistId: Todolist['id'], taskId: TaskType['id'], title: TaskType['title']) => {
-        // setTasks({...tasks, [todolistId]: tasks[todolistId].map(task => task.id === taskId ? {...task, title} : task)})
+        dispatchTasks(changeTaskTitleAC({todolistId, taskId, title}))
     }
 
     const changeTodolistTitle = (todolistId: Todolist['id'], title: Todolist['title']) => {
